@@ -1,0 +1,614 @@
+---
+title: "Lista de Exercícios 2 - ADAR/UFSM"
+author: "Samarone"
+date: '`r Sys.Date()`'
+output: 
+	html_document:
+	self_contained: true
+---
+	
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+											comment = "",
+											prompt = FALSE, 
+											collapse = TRUE 
+)
+
+library(tidyverse)
+```
+
+
+1. Crie um vetor com os valores de $e^{x}cos{x}$ para os valores de $x = (3, 3.1, 3.2, ..., 6$).
+```{r}
+x <- seq(3, 6, by = 0.1)
+resultado <- exp(x) * cos(x)
+```
+
+
+
+
+
+2. Crie os seguintes vetores.
+a. $(0.1^{3}\times0.2^{1}, 0.1^{6}\times0.2^{4}, ..., 0.1^{36}\times0.2^{34})$  
+```{r}
+A <- seq(3, 36, by = 3)
+B <- seq(1, 34, by = 3)
+
+Resultado2a <- (0.1^A * 0.2^B)
+```
+
+b. $(2, \frac{2^{2}}{2}, \frac{2^{3}}{3}, ..., \frac{2^{25}}{25})$  
+	
+	
+	- - -
+```{r}
+expoentes <- 2:25
+resultado2b <- c(2,2^expoentes/expoentes)
+resultado2b
+```
+
+3. Reproduza a criação do vetor dias da semana (`dds`) mostrado abaixo.
+
+```
+domingo segunda   terca  quarta  quinta   sexta   sabado
+1       2       3       4       5       6        7
+```
+```{r}
+dds <- c(1,2,3,4,5,6,7)
+names(dds) <- c("domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sabado")
+dds
+```
+
+4. Interprete o resultado da seguinte operação:
+	
+```{r, eval = FALSE}
+dds_nums <- c(
+	5L, 2L, 5L, 2L, 7L, 7L, 2L,
+	6L, 6L, 3L, 7L, 1L, 2L, 2L,
+	5L, 7L, 3L, 2L, 6L, 4L, 1L
+)
+names(dds)[dds_nums]
+```
+
+#Cada número seguido da letra L retorna o nome do dia da semana 
+
+- - -
+	
+	5. Para um ano ser bissexto, ele deve ser:
+
+- divísivel por 4 (a divisão é exata com resto igual a zero)
+
+- não pode ser divisível por 100 (a divisão não é exata, ou seja, o resto é diferente de zero)
+
+- pode ser que seja divisível por 400: caso seja divisível por 400, a divisão deve ser exata, deixando o resto igual a zero.
+```{r}
+# Função para verificar se um ano é bissexto
+eh_bissexto <- function(ano) {
+	(ano %% 4 == 0 && ano %% 100 != 0) || (ano %% 400 == 0)
+}
+
+# Testando a função com alguns anos
+ano_teste <- c(1900, 2000, 2004, 2023)
+ano_resultado <-sapply(ano_teste, eh_bissexto)
+ano_resultado
+
+```
+
+#para o resultado anterior os anos de 1900 e 2003 não é bissexto pois não é
+# divisivel por 400, mas sim por 100 e os anos de 200 e 2004 é bissexto, pois 
+# é divisivel por 400
+
+
+`r paste("  ")`Com os critérios definidos acima, construa o código para:
+	
+	`r paste("    ")`a. Verificar se os anos `r set.seed(3); paste( (anos <- c(sample(1890:2015, 10), 2100, 2300)) , collapse = ", ")` são bissextos.
+```{r}
+# Função para verificar se um ano é bissexto
+sebissexto <- function(ano) {
+	(ano %% 4 == 0 && ano %% 100 != 0) || (ano %% 400 == 0)
+}
+
+set.seed(3)
+anos <- c(sample(1890:2015, 10), 2100, 2300)
+anos0bissextos <- anos[ sapply(anos, eh_bissexto) ]
+print("Anos bissextos:")
+print(anos0bissextos)
+
+```
+
+`r paste("    ")`b. Mostre quais anos são bissextos.
+```{r}```
+```{r}
+anos0bissextos
+```
+
+`r paste("    ")`c. Usando o código para verificar se o ano é bissexto, gere um vetor nomeado `ndias` com o número de dias do ano para os anos do item (a).
+```{r}
+
+ndias <- ifelse(sapply(anos, eh_bissexto), 366, 365)
+names(ndias) <- anos 
+print("Número de dias de cada ano:")
+print(ndias)
+
+```
+
+`r paste("    ")`d. Programe como obter o total de anos com 366 dias?
+	
+```{r}
+total_bissextos <- sum(ndias == 366)
+print("Total de anos com 366 dias:")
+print(total_bissextos)
+
+```
+
+
+6. Quais códigos para gerar os seguintes dados:
+	a.
+
+```
+[1] -30   0   5  10  15  20  30
+```
+```{r}
+sequencia <- c(-30, seq(0, 30, by = 5))
+sequencia
+```
+
+b.
+
+```
+[1] 1.0 0.8 0.6 0.4 0.2 0.0
+
+```  
+```{r}
+seq(1, 0, by = -0.2)
+
+```
+
+c.
+
+```
+[1] -3.1415927 -2.4434610 -1.7453293 -1.0471976 -0.3490659  0.3490659
+[7]  1.0471976  1.7453293  2.4434610  3.1415927
+```
+```{r}
+seq(-pi, pi, length.out = 10)
+
+```
+
+
+d.
+
+```
+[1] -1 -1  0  0  0  1  1  1  1  2  2  2  2  2  3  3  3  3  3  3  4  4  4
+[24]  4  4  4  4  5  5  5  5  5  5  5  5
+```
+```{r}
+rep(-1:5, each = 5)
+
+```
+
+e.
+
+```
+[1] 5 5 5 5 5 4 4 4 4 3 3 3 2 2 1 2 2 3 3 3 4 4 4 4 5 5 5 5 5
+```
+```{r}
+rep(c(5, 4, 3, 2, 1, 2, 3, 4, 5), times = c(5, 4, 3, 2, 1, 2, 3, 4, 5))
+
+```
+
+
+- - - 
+	
+	7. Usando o mesmo código para solução em todos os itens abaixo, obtenha as seguintes sequências usando os vetores fornecidos.
+
+```{r , eval=TRUE,echo=FALSE}
+v3 <- c(11, 0.25, 7, 2)
+v3
+``` 
+
+a. v3 = `r paste0("(", paste(v3 , collapse = ", "), ")")`
+```{r}
+v3
+```
+
+```
+[1] 1 2 3 4
+``` 
+
+b. v2 = `r paste0("(", paste(v3[1:2] , collapse = ", "), ")")`
+
+```
+[1] 1 2
+```
+```{r}
+v3 = paste0("(", paste(v3[1:2], collapse = ", "), ")")
+v3
+```
+
+
+c. v1 = `r paste0("(", paste(v3[1] , collapse = ", "), ")")`
+
+
+```
+[1] 1
+```
+```{r}
+v3 <- c(11, 0.25, 7, 2)
+v1 <- paste0("(", paste(v3[1], collapse = ", "), ")")
+print(v1)
+
+```
+
+
+
+
+```{r Chunk7d, eval=TRUE,echo=FALSE,comment=""}
+v0 <- c()
+``` 
+
+d. v0 = `r paste0("(", paste(v0 , collapse = ", "), ")")`
+
+```
+integer(0)
+```
+```{r}
+v0 <- c()  
+v0_str <- paste0("(", paste(v0, collapse = ", "), ")")
+v0_str
+
+```
+
+- - -
+	
+	8. Considere os seguintes dados horários de temperatura do ar ($T_{ar}$) registrados em duas estações meteorológicas, entre as 0 e 23 horas de um dado dia.
+
+```{r prep-tar-data}
+tar_est1 <- c(
+	14.92, 14.61, 14.32, 14.07, 13.84, 13.65, 13.56, 13.97, 15.08,
+	16.5, 17.88, 19.08, 20.02, 20.66, 21.01, 21.05, 20.76, 20.05,
+	18.77, 17.51, 16.67, 16.11, 15.66, 15.27
+)
+tar_est2 <- c(
+	13.13, 13.01, 12.93, 12.87, 12.82, 12.81, 13.2, 14.22, 15.77,
+	17.49, 19.2, 20.57, 21.49, 22.01, 22.03, 21.71, 20.84, 18.77,
+	16.54, 15.13, 14.34, 13.81, 13.49, 13.28
+)
+```
+
+```{r}
+horas <- 0:23
+plot(horas, tar_est1, type = "l", col = "blue", lwd = 2,
+		 xlab = "hora", ylab = "temperatura (°C)",
+		 main = "Temperatura das estações meteorologicas", 
+		 xaxt = "n")
+
+lines (horas, tar_est2, col = "red" , lwd = 2)
+
+axis(1, at = horas, labels = horas)
+
+legend("topright", legend = c ("Estação1", "Estação2"), col = c("blue", "red"))
+```
+
+
+> Dica: Faça um gráfico para visualizar as temperaturas das duas estações. Isso facilitará a solução.
+
+
+
+**a.** Determine a média diária da $T_{ar}$ das duas estações arrendondando para uma casa decimal. Salve a média de cada estação nas variáveis `tmed_est1` e `tmed_est2`.
+```{r}
+tmed_est1 <- round(mean(tar_est1), 1)
+tmed_est2 <- round(mean(tar_est2), 1)
+
+tmed_est1
+tmed_est2
+
+```
+
+
+
+**b**. Utilizando as variáveis do item anterior, verifique usando comparação lógica, em qual estação o ambiente é mais quente?
+```{r}
+
+if (tmed_est1 > tmed_est2) {
+	"Estação 1 foi mais quente"
+} else if (tmed_est1 < tmed_est2) {
+	"Estação 2 foi mais quente"
+} else {
+	"As estações tiveram a mesma temperatura média"
+}
+
+```
+
+
+**c**. Obtenha a 3ª maior temperatura do dia em cada estação.
+```{r}
+# 3ª maior temperatura
+third_max_est1 <- sort(tar_est1, decreasing = TRUE)[3]
+third_max_est2 <- sort(tar_est2, decreasing = TRUE)[3]
+
+# Resultado das 3ªs maiores temperaturas
+third_max_est1
+third_max_est2
+
+```
+
+
+
+**d**. Calcule a amplitude térmica diária ($ATD = T_{max}-T_{min}$, onde $T_{max}$: temperatura máxima dária e $T_{min}$: temperatura mínima dária) das estações 1 e 2, arrendondando para uma casa decimal. Salve os resultados nas variaveis `atd_est1` e `atd_est2`.
+```{r}
+atd_est1 <- round(max(tar_est1) - min(tar_est1), 1)
+atd_est2 <- round(max(tar_est2) - min(tar_est2), 1)
+
+atd_est1
+atd_est2
+
+```
+
+
+**e**. Qual o horário de ocorrência das temperaturas máximas e mínimas em cada estação? Salve os resultados nas variáveis `hmax_est{i}` e `hmin_est{i}`, com $i = 1, 2$.
+```{r}
+
+hmax_est1 <- which.max(tar_est1)
+hmin_est1 <- which.min(tar_est1)
+hmax_est2 <- which.max(tar_est2)
+hmin_est2 <- which.min(tar_est2)
+
+hmax_est1
+hmin_est1
+hmax_est2
+hmin_est2
+
+```
+
+
+**f**. Quando `tar_est2` é maior que `tar_est1` qual a maior diferença absoluta de temperatura entre as duas estações?
+	
+```{r}
+
+diff_temp <- abs(tar_est2 - tar_est1)
+
+max_diff_when_gt <- max(diff_temp[tar_est2 > tar_est1])
+
+max_diff_when_gt
+
+```
+
+
+**g**. Qual a hora correspondende a ocorrência daquela maior diferença absoluta de temperatura obtida no item anterior?
+	
+```{r}
+hour_max_diff <- which.max(diff_temp[tar_est2 > tar_est1])
+
+hour_max_diff
+
+```
+
+
+**h**. O horário do pôr do sol pode ser estimado a partir da $T_{ar}$. Para o período após o horário de ocorrência da $T_{max}$ determina-se em qual hora ocorre a maior queda de $T_{ar}$ em relação a hora anterior. Estime o horário do pôr do sol para as duas estações (`hps_est{i}`). 
+```{r}
+
+diff_est1 <- diff(tar_est1[hmax_est1:length(tar_est1)] )
+diff_est2 <- diff(tar_est2[hmax_est2:length(tar_est2)] )
+
+
+hps_est1 <- hmax_est1 + which.min(diff_est1) + 1
+hps_est2 <- hmax_est2 + which.min(diff_est2) + 1
+
+
+hps_est1
+hps_est2
+
+```
+
+
+**i**. Em quais horas as temperaturas das duas estações estão mais próximas uma da outra, ou seja com menos de 0,5°C de diferença ?
+```{r}
+
+close_temp_hours <- which(abs(tar_est2 - tar_est1) < 0.5)
+
+close_temp_hours
+
+```
+
+
+**j**. Calcule a temperatura média diária usando os seguintes métodos para estação 2.
+
+$T_{med_{1}} = (T_{max} + T_{min})/2$, salvando em uma variável `tar_met1`.
+```{r}
+Tmax_est2 <- max(tar_est2)
+Tmin_est2 <- min(tar_est2)
+T9_est2 <- tar_est2[9]
+T21_est2 <- tar_est2[21]
+
+tar_met1 <- (Tmax_est2 + Tmin_est2) / 2
+tar_met1
+```
+
+
+$T_{med_{2}} = (T_{max} + T_{min} + T_{9} + 2T_{21})/5$, salvando em uma variável `tar_met2`.
+```{r}
+tar_met2 <- (Tmax_est2 + Tmin_est2 + T9_est2 + 2 * T21_est2) / 5
+tar_met2
+```
+
+
+$T_{med_{3}} = (T_{7} + T_{14} + 2T_{21})/4$, salvando em uma variável `tar_met2`.
+
+```{r}
+T7_est2 <- tar_est2[7]
+T14_est2 <- tar_est2[14]
+
+tar_met3 <- (T7_est2 + T14_est2 + 2 * T21_est2) / 4
+tar_met3
+tar_met3
+
+
+```
+
+
+Compare este resultados com aqueles obtidos no item **a**. Qual é melhor?
+```{r}
+
+diff_met1 <- abs(tmed_est2 - tar_met1)
+diff_met2 <- abs(tmed_est2 - tar_met2)
+diff_met3 <- abs(tmed_est2 - tar_met3)
+
+melhor_metodo <- min(diff_met1, diff_met2, diff_met3)
+
+diff_met1
+diff_met2
+diff_met3
+
+melhor_metodo
+
+```
+
+- - - 
+	
+	9. Calcule a temperatura do ar horária usando o **modelo de onda** para representação do ciclo diário da temperatura do ar, descrito pelas seguintes equações:
+	
+```{r}
+
+tar_est1 <- c(14.92, 14.61, 14.32, 14.07, 13.84, 13.65, 13.56, 13.97, 15.08, 16.5, 17.88, 19.08, 20.02, 20.66, 21.01, 21.05, 20.76, 20.05, 18.77, 17.51, 16.67, 16.11, 15.66, 15.27)
+tar_est2 <- c(13.13, 13.01, 12.93, 12.87, 12.82, 12.81, 13.2, 14.22, 15.77, 17.49, 19.2, 20.57, 21.49, 22.01, 22.03, 21.71, 20.84, 18.77, 16.54, 15.13, 14.34, 13.81, 13.49, 13.28)
+
+
+horas <- 0:23
+
+tar_est1
+tar_est2
+horas
+```
+
+
+$$\left\{\begin{matrix}
+	h_{T_{min}}\leq h < h_{T_{max}}, & T_{calc} =  \bar{T} - A \, cos\left ( arg \right )\\ 
+	demais\; horas, & T_{calc} =  \bar{T} + A \, cos\left ( arg \right )
+	\end{matrix}\right.$$
+
+`r paste("  ")`onde:
+		
+$$\bar{T} = \left ( \frac{T_{max} + T_{min}}{2} \right )$$
+		
+`r paste("  ")`e 
+	
+$$A =\left ( \frac{T_{max}-T_{min}}{2} \right ) $$
+		
+```{r}
+	Tmax_est1 <- max(tar_est1)
+	Tmin_est1 <- min(tar_est1)
+	h_Tmax_est1 <- which.max(tar_est1) - 1
+	h_Tmin_est1 <- which.min(tar_est1) - 1
+	
+	Tmax_est2 <- max(tar_est2)
+	Tmin_est2 <- min(tar_est2)
+	h_Tmax_est2 <- which.max(tar_est2) - 1
+	h_Tmin_est2 <- which.min(tar_est2) - 1
+	
+	T_bar_est1 <- (Tmax_est1 + Tmin_est1) / 2
+	A_est1 <- (Tmax_est1 - Tmin_est1) / 2
+	
+	# Estação 2
+	T_bar_est2 <- (Tmax_est2 + Tmin_est2) / 2
+	A_est2 <- (Tmax_est2 - Tmin_est2) / 2
+	
+	T_bar_est1
+	T_bar_est2
+	A_est1
+	A_est2
+	
+	
+```
+	
+	
+	
+	
+`r paste("  ")`O argumento do cosseno ($arg$) é definido por:
+		
+$$\left\{\begin{matrix}
+			h <  h_{T_{min}}, & arg = \pi  \left ( \frac{h+10}{10+h_{Tmin}} \right )\\ 
+			h_{T_{min}}\leq h < h_{T_{max}}, & arg = \pi  \left ( \frac{h-h_{T_{min}}}{14-h_{T_{min}}} \right )\\ 
+			h > h_{T_{max}},  & arg = \pi\left ( \frac{14-h}{10+h_{Tmin}} \right )
+			\end{matrix}\right.$$
+				
+`r paste("  ")`**a**. Aplique o método acima para estação 1 e 2 substituindo os valores de $T_{max}$, $T_{min}$, $h_{T_{max}}$, $h_{T_{max}}$, adequadamente.
+			
+```{r}
+			tar_est1 <- c(14.92, 14.61, 14.32, 14.07, 13.84, 13.65, 13.56, 13.97, 15.08, 16.5, 17.88, 19.08, 20.02, 20.66, 21.01, 21.05, 20.76, 20.05, 18.77, 17.51, 16.67, 16.11, 15.66, 15.27)
+			tar_est2 <- c(13.13, 13.01, 12.93, 12.87, 12.82, 12.81, 13.2, 14.22, 15.77, 17.49, 19.2, 20.57, 21.49, 22.01, 22.03, 21.71, 20.84, 18.77, 16.54, 15.13, 14.34, 13.81, 13.49, 13.28)
+			horas <- 0:23
+			
+			calc_arg <- function(h, h_Tmin, h_Tmax) {
+				if (h < h_Tmin) pi * (h + 10) / (10 + h_Tmin)
+				else if (h >= h_Tmin && h < h_Tmax) pi * (h - h_Tmin) / (14 - h_Tmin)
+				else pi * (14 - h) / (10 + h_Tmin)
+			}
+			
+			calc_temp <- function(Tmax, Tmin, h_Tmin, h_Tmax) {
+				T_bar <- (Tmax + Tmin) / 2
+				A <- (Tmax - Tmin) / 2
+				sapply(horas, function(h) {
+					arg <- calc_arg(h, h_Tmin, h_Tmax)
+					if (h >= h_Tmin && h < h_Tmax) T_bar - A * cos(arg) else T_bar + A * cos(arg)
+				})
+			}
+			
+			
+			Tcalc_est1 <- calc_temp(max(tar_est1), min(tar_est1), which.min(tar_est1) - 1, which.max(tar_est1) - 1)
+			Tcalc_est2 <- calc_temp(max(tar_est2), min(tar_est2), which.min(tar_est2) - 1, which.max(tar_est2) - 1)
+			
+			
+			Tcalc_est1  
+			Tcalc_est2  
+			
+			
+```
+			
+`r paste("  ")`**b**. Calcule o RMSE nos dois casos. 
+
+$$RMSE = \sqrt{\frac{1}{n}\sum_{i=1}^{n}\left (T_{calc}-T_{obs}  \right )^{2}}$$
+				
+```{r}
+		
+			calc_rmse <- function(T_obs, T_calc) {
+				sqrt(mean((T_calc - T_obs)^2))
+			}
+			
+			
+			rmse_est1 <- calc_rmse(tar_est1, Tcalc_est1)
+			rmse_est2 <- calc_rmse(tar_est2, Tcalc_est2)
+			
+			
+			rmse_est1  
+			rmse_est2  
+			
+```
+			
+			
+`r paste("  ")`**c**. Calcule a correlação ($r$) nos dois casos. A barra representa a média aritmética.
+			
+$$r = \frac{\sum_{i=1}^{n} (T_{obs}-\bar{T}_{obs})(T_{calc}-\bar{T}_{calc}))}{\sqrt{\sum_{i = 1}^{n} (T_{obs}-\bar{T}_{obs})^{2}(T_{calc}-\bar{T}_{calc})^{2})}}$$
+```{r}
+			
+			calc_corr <- function(T_obs, T_calc) {
+				T_obs_mean <- mean(T_obs)
+				T_calc_mean <- mean(T_calc)
+				
+				numerador <- sum((T_obs - T_obs_mean) * (T_calc - T_calc_mean))
+				denominador <- sqrt(sum((T_obs - T_obs_mean)^2) * sum((T_calc - T_calc_mean)^2))
+				
+				r <- numerador / denominador
+				return(r)
+			}
+			
+			
+			corr_est1 <- calc_corr(tar_est1, Tcalc_est1)
+			corr_est2 <- calc_corr(tar_est2, Tcalc_est2)
+			
+			corr_est1  
+			corr_est2  
+			
+```
+		
+			
